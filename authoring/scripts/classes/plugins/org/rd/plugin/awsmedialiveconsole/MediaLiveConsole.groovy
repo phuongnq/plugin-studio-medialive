@@ -1,7 +1,7 @@
 package plugins.org.rd.plugin.awsmedialiveconsole
 
-@Grab(group='com.amazonaws', module='aws-java-sdk-medialive', version='1.12.99' initClass=false)
-@Grab(group='com.amazonaws', module='aws-java-sdk-mediapackage', version='1.12.99' initClass=false)
+@Grab(group='com.amazonaws', module='aws-java-sdk-medialive', version='1.12.99', initClass=false)
+@Grab(group='com.amazonaws', module='aws-java-sdk-mediapackage', version='1.12.99', initClass=false)
 
 import com.amazonaws.auth.*
 import com.amazonaws.auth.AWSCredentialsProvider
