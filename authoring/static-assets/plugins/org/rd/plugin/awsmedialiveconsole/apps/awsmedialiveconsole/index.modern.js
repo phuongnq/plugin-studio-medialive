@@ -3330,7 +3330,7 @@ var ReactComponent = function (_a) {
         if (!document.getElementById("se1")) {
             // gross
             // @ts-ignore
-            var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+            var siteId = craftercms.getStore().getState().sites.active;
             // @ts-ignore
             var baseAddress = "/studio/1/plugin/file"
                 + "?type=apps"
@@ -3355,7 +3355,7 @@ var ReactComponent = function (_a) {
     }, []);
     var dataLoadChannels = function () {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
         var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
             + '?siteId=' + siteId;
@@ -3366,7 +3366,7 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOn = function (channelId) {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
         var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
             + '?siteId=' + siteId
@@ -3379,7 +3379,7 @@ var ReactComponent = function (_a) {
     };
     var handleToggleOff = function (channelId) {
         // @ts-ignore
-        var siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site;
+        var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
         var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
             + '?siteId=' + siteId
@@ -3436,13 +3436,13 @@ var ReactComponent = function (_a) {
         itemSize: 1
     }), state = _d[0], setState = _d[1];
     return (createElement(Fragment, null,
-        createElement("div", { onClick: function () { return setOpen(true); }, className: "MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-1kabypi" },
-            createElement("div", { className: "MuiListItemIcon-root css-1vytlk6" },
-                createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "DashboardRoundedIcon" },
+        createElement("div", { onClick: function () { return setOpen(true); }, className: "MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters mui-12fdbme" },
+            createElement("div", { className: "MuiListItemIcon-root mui-k9sfc6" },
+                createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "DashboardRoundedIcon" },
                     createElement("path", { d: "M17 21.5H4a2 2 0 01-2-2v-10a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2zM21 11.5v6l4.445 2.964A1 1 0 0027 19.631V9.369a1 1 0 00-1.555-.832L21 11.5z" }))),
-            createElement("div", { className: "MuiListItemText-root css-1tsvksn" },
+            createElement("div", { className: "MuiListItemText-root mui-1tsvksn" },
                 createElement("span", { className: "MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm" }, "AWS MediaLive Console")),
-            createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "ChevronRightRoundedIcon" },
+            createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "ChevronRightRoundedIcon" },
                 createElement("path", { d: "M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" })),
             createElement("span", { className: "MuiTouchRipple-root css-w0pj6f" })),
         createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return closePreview(); }, open: lightBoxOpen },

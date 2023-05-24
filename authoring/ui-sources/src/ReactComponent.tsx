@@ -59,13 +59,13 @@ const IOSSwitch = styled((props) => (
 
 const ReactComponent = ({}: ExampleComponentProps) => {
 
-  
+
 
   React.useEffect(() => {
     if(!document.getElementById("se1")) {
       // gross
       // @ts-ignore
-      let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+      let siteId = craftercms.getStore().getState().sites.active
 
       // @ts-ignore
       var baseAddress = "/studio/1/plugin/file"
@@ -73,7 +73,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                       + "&name=awsmedialiveconsole"
                       + "&pluginId=org.rd.plugin.awsmedialiveconsole"
                       + "&siteId="+siteId
-      
+
       var se1 = document.createElement("script")
           se1.src = baseAddress+"&filename=video.js"
           se1.id = "se1"
@@ -85,7 +85,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
 
     dataLoadChannels()
-    
+
     var intervalRef = setInterval( () => {
         dataLoadChannels()
       },10000)
@@ -97,11 +97,11 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const dataLoadChannels = () => {
     // @ts-ignore
-    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    let siteId = craftercms.getStore().getState().sites.active
     // @ts-ignore
     let serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
                    + '?siteId='+siteId
-    
+
     // @ts-ignore
     CrafterCMSNext.util.ajax.get(serviceUrl).subscribe((response) => {
        setState({...state, channels:response.response.result})
@@ -110,7 +110,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const handleToggleOn = (channelId) => {
     // @ts-ignore
-    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    let siteId = craftercms.getStore().getState().sites.active
     // @ts-ignore
     let serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
                    + '?siteId='+siteId
@@ -124,7 +124,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   const handleToggleOff = (channelId) => {
     // @ts-ignore
-    let siteId = craftercms.plugins.get("org.rd.plugin.awsmedialiveconsole").source.site
+    let siteId = craftercms.getStore().getState().sites.active
     // @ts-ignore
     let serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
                    + '?siteId='+siteId
@@ -153,7 +153,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
     videojs(playerEl).dispose()
     // @ts-ignore
     window.awsMPVideoPlayer = null
-       
+
     setLightBoxOpen(false)
   }
 
@@ -163,8 +163,8 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
     window.setTimeout(function() {
       // @ts-ignore
-      var player = window.awsMPVideoPlayer  
-      
+      var player = window.awsMPVideoPlayer
+
       if(!player) {
         // @ts-ignore
         var playerEl = document.getElementById('example-video')
@@ -173,12 +173,12 @@ const ReactComponent = ({}: ExampleComponentProps) => {
         // @ts-ignore
         window.awsMPVideoPlayer = player
       }
-      
+
       // @ts-ignore
       var videoType = (videoSrcUrl.indexOf("m3u8")!=-1) ? 'application/vnd.apple.mpegurl' :'application/dash+xml'
       player.src({ src: videoSrcUrl, type: videoType})
-      player.play()        
-   
+      player.play()
+
     }, 1500)
 
   }
@@ -196,23 +196,22 @@ const ReactComponent = ({}: ExampleComponentProps) => {
 
   return (
     <React.Fragment>
-      <div onClick={() => setOpen(true)} className="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button css-1kabypi" >
-        <div className="MuiListItemIcon-root css-1vytlk6">
-          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DashboardRoundedIcon">
+      <div onClick={() => setOpen(true)} className="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters mui-12fdbme">
+        <div className="MuiListItemIcon-root mui-k9sfc6">
+          <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DashboardRoundedIcon">
             <path d="M17 21.5H4a2 2 0 01-2-2v-10a2 2 0 012-2h13a2 2 0 012 2v10a2 2 0 01-2 2zM21 11.5v6l4.445 2.964A1 1 0 0027 19.631V9.369a1 1 0 00-1.555-.832L21 11.5z"></path>
           </svg>
         </div>
-      <div className="MuiListItemText-root css-1tsvksn">
-        <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm">
-          AWS MediaLive Console
-        </span>
-      </div>
-        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ChevronRightRoundedIcon">
+        <div className="MuiListItemText-root mui-1tsvksn">
+          <span className="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap MuiListItemText-primary css-typdpm">
+            AWS MediaLive Console
+          </span>
+        </div>
+        <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ChevronRightRoundedIcon">
           <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z"></path>
         </svg>
         <span className="MuiTouchRipple-root css-w0pj6f"></span>
       </div>
-
 
       <Dialog fullWidth={false} maxWidth={'lg'} onClose={() => closePreview()} open={lightBoxOpen}>
         <video id="example-video" style={{width:600, height:300}} className="video-js vjs-default-skin" controls> </video>
@@ -254,7 +253,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                 let button = (<div style={{ display: 'block' }}><Button size="small" color="primary" onClick={() => previewDestination(endpoint.url)}>{buttonLabel}</Button></div>)
                 return button
               })
-            
+
               return (<tr>
                        <td><b>{dest.mediaPackageChannelId}</b></td>
                        <td>&nbsp;</td>
@@ -263,7 +262,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                        <td>{epb}</td>
                      </tr>)
             })
-            
+
             let channelPreviewButton = <table>{d}</table>
 
             // @ts-ignore
@@ -279,7 +278,7 @@ const ReactComponent = ({}: ExampleComponentProps) => {
                     checked={channelSwitchOn}
                     onChange={() => handleToggleChannel(channelSwitchOn, channel.id)}
                     control={<IOSSwitch  />}
-                    label=""/> 
+                    label=""/>
                 </TableCell>
                 <TableCell align="right">{channelPreviewButton}</TableCell>
               </TableRow>
