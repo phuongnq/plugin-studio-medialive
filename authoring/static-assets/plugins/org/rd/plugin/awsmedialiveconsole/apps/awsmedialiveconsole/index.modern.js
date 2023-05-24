@@ -3288,7 +3288,7 @@ const styled$1 = createStyled$1({
   rootShouldForwardProp
 });
 
-var IOSSwitch = styled$1(function (props) { return (createElement(Switch, __assign({ focusVisibleClassName: ".Mui-focusVisible", disableRipple: true }, props))); })(function (_a) {
+var IOSSwitch = styled$1(function (props) { return createElement(Switch, __assign({ focusVisibleClassName: ".Mui-focusVisible", disableRipple: true }, props)); })(function (_a) {
     var theme = _a.theme;
     return ({
         width: 42,
@@ -3304,45 +3304,43 @@ var IOSSwitch = styled$1(function (props) { return (createElement(Switch, __assi
                 '& + .MuiSwitch-track': {
                     backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
                     opacity: 1,
-                    border: 0,
+                    border: 0
                 },
                 '&.Mui-disabled + .MuiSwitch-track': {
-                    opacity: 0.5,
-                },
+                    opacity: 0.5
+                }
             },
             '&.Mui-focusVisible .MuiSwitch-thumb': {
                 color: '#33cf4d',
-                border: '6px solid #fff',
+                border: '6px solid #fff'
             },
             '&.Mui-disabled .MuiSwitch-thumb': {
-                color: theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[600],
+                color: theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[600]
             },
             '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+                opacity: theme.palette.mode === 'light' ? 0.7 : 0.3
             }
         }
     });
 });
-var ReactComponent = function (_a) {
+var ReactComponent = function () {
     useEffect(function () {
-        if (!document.getElementById("se1")) {
+        if (!document.getElementById('se1')) {
             // gross
             // @ts-ignore
             var siteId = craftercms.getStore().getState().sites.active;
             // @ts-ignore
-            var baseAddress = "/studio/1/plugin/file"
-                + "?type=apps"
-                + "&name=awsmedialiveconsole"
-                + "&pluginId=org.rd.plugin.awsmedialiveconsole"
-                + "&siteId=" + siteId;
-            var se1 = document.createElement("script");
-            se1.src = baseAddress + "&filename=video.js";
-            se1.id = "se1";
+            var baseAddress = '/studio/1/plugin/file' +
+                '?type=apps' +
+                '&name=awsmedialiveconsole' +
+                '&pluginId=org.rd.plugin.awsmedialiveconsole' +
+                ("&siteId=" + siteId);
+            var se1 = document.createElement('script');
+            se1.src = baseAddress + '&filename=video.js';
+            se1.id = 'se1';
             document.head.appendChild(se1);
-            var se2 = document.createElement("script");
-            se2.src = baseAddress + "&filename=videojs-dash.js";
+            var se2 = document.createElement('script');
+            se2.src = baseAddress + '&filename=videojs-dash.js';
             document.head.appendChild(se2);
         }
         dataLoadChannels();
@@ -3357,8 +3355,8 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json'
-            + '?siteId=' + siteId;
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/list.json' +
+            ("?siteId=" + siteId);
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             setState(__assign(__assign({}, state), { channels: response.response.result }));
@@ -3368,10 +3366,10 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
-            + '?siteId=' + siteId
-            + '&action=start'
-            + '&channelId=' + channelId;
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json' +
+            ("?siteId=" + siteId) +
+            '&action=start' +
+            ("&channelId=" + channelId);
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             dataLoadChannels();
@@ -3381,17 +3379,17 @@ var ReactComponent = function (_a) {
         // @ts-ignore
         var siteId = craftercms.getStore().getState().sites.active;
         // @ts-ignore
-        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json'
-            + '?siteId=' + siteId
-            + '&action=stop'
-            + '&channelId=' + channelId;
+        var serviceUrl = '/studio/api/2/plugin/script/plugins/org/rd/plugin/awsmedialiveconsole/medialiveconsole/control.json' +
+            ("?siteId=" + siteId) +
+            '&action=stop' +
+            ("&channelId=" + channelId);
         // @ts-ignore
         CrafterCMSNext.util.ajax.get(serviceUrl).subscribe(function (response) {
             dataLoadChannels();
         });
     };
     var handleToggleChannel = function (currentState, channelId) {
-        if (!currentState || currentState == false) {
+        if (!currentState) {
             handleToggleOn(channelId);
         }
         else {
@@ -3416,25 +3414,25 @@ var ReactComponent = function (_a) {
                 // @ts-ignore
                 var playerEl = document.getElementById('example-video');
                 // @ts-ignore
-                var player = videojs(playerEl);
+                var player_1 = videojs(playerEl);
                 // @ts-ignore
-                window.awsMPVideoPlayer = player;
+                window.awsMPVideoPlayer = player_1;
             }
             // @ts-ignore
-            var videoType = (videoSrcUrl.indexOf("m3u8") != -1) ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
+            var videoType = videoSrcUrl.indexOf('m3u8') !== -1 ? 'application/vnd.apple.mpegurl' : 'application/dash+xml';
             player.src({ src: videoSrcUrl, type: videoType });
             player.play();
         }, 1500);
     };
-    var _b = useState(false), open = _b[0], setOpen = _b[1];
-    var _c = useState(false), lightBoxOpen = _c[0], setLightBoxOpen = _c[1];
-    var _d = useState({
+    var _a = useState(false), open = _a[0], setOpen = _a[1];
+    var _b = useState(false), lightBoxOpen = _b[0], setLightBoxOpen = _b[1];
+    var _c = useState({
         channels: {},
         hasMore: true,
         curPage: 0,
         itemsPerPage: 10,
         itemSize: 1
-    }), state = _d[0], setState = _d[1];
+    }), state = _c[0], setState = _c[1];
     return (createElement(Fragment, null,
         createElement("div", { onClick: function () { return setOpen(true); }, className: "MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters mui-12fdbme" },
             createElement("div", { className: "MuiListItemIcon-root mui-k9sfc6" },
@@ -3445,9 +3443,9 @@ var ReactComponent = function (_a) {
             createElement("svg", { className: "MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv", focusable: "false", "aria-hidden": "true", viewBox: "0 0 24 24", "data-testid": "ChevronRightRoundedIcon" },
                 createElement("path", { d: "M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01z" })),
             createElement("span", { className: "MuiTouchRipple-root css-w0pj6f" })),
-        createElement(Dialog, { fullWidth: false, maxWidth: 'lg', onClose: function () { return closePreview(); }, open: lightBoxOpen },
-            createElement("video", { id: "example-video", style: { width: 600, height: 300 }, className: "video-js vjs-default-skin", controls: true }, " ")),
-        createElement(Dialog, { fullWidth: true, maxWidth: 'xl', onClose: function () { return setOpen(false); }, "aria-labelledby": "simple-dialog-title", open: open },
+        createElement(Dialog, { fullWidth: false, maxWidth: "lg", onClose: function () { return closePreview(); }, open: lightBoxOpen },
+            createElement("video", { id: "example-video", style: { width: 600, height: 300 }, className: "video-js vjs-default-skin", controls: true })),
+        createElement(Dialog, { fullWidth: true, maxWidth: "xl", onClose: function () { return setOpen(false); }, "aria-labelledby": "simple-dialog-title", open: open },
             createElement(DialogTitle, { id: "max-width-dialog-title" }, "AWS MediaLive Console"),
             createElement(TableContainer, { component: Paper },
                 createElement(Table, { sx: { minWidth: 650 }, "aria-label": "simple table" },
@@ -3458,40 +3456,41 @@ var ReactComponent = function (_a) {
                             createElement(TableCell, { align: "right" }, "State"),
                             createElement(TableCell, { align: "right" }, "Control"),
                             createElement(TableCell, { align: "right" }, "Preview"))),
-                    createElement(TableBody, null, state.channels && Object.entries(state.channels).map(function (_a) {
-                        var channelIdx = _a[0];
-                        var channel = state.channels[channelIdx];
-                        var channelSwitchOn = (channel.state == "STARTING" || channel.state == "RUNNING");
-                        var d = Object.entries(channel.destinations).map(function (_a) {
-                            var destIdx = _a[0];
-                            var dest = channel.destinations[destIdx];
-                            var epb = Object.entries(dest.endpoints).map(function (_a) {
-                                var endpointsIdx = _a[0];
-                                var endpoint = dest.endpoints[endpointsIdx];
-                                var buttonLabel = (endpoint.description) ? endpoint.description : endpoint.description;
-                                var button = (createElement("div", { style: { display: 'block' } },
-                                    createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, buttonLabel)));
-                                return button;
+                    createElement(TableBody, null, state.channels &&
+                        Object.entries(state.channels).map(function (_a) {
+                            var channelIdx = _a[0];
+                            var channel = state.channels[channelIdx];
+                            var channelSwitchOn = channel.state === 'STARTING' || channel.state === 'RUNNING';
+                            var d = Object.entries(channel.destinations).map(function (_a) {
+                                var destIdx = _a[0];
+                                var dest = channel.destinations[destIdx];
+                                var epb = Object.entries(dest.endpoints).map(function (_a) {
+                                    var endpointsIdx = _a[0];
+                                    var endpoint = dest.endpoints[endpointsIdx];
+                                    var buttonLabel = endpoint.description;
+                                    var button = (createElement("div", { style: { display: 'block' } },
+                                        createElement(Button, { size: "small", color: "primary", onClick: function () { return previewDestination(endpoint.url); } }, buttonLabel)));
+                                    return button;
+                                });
+                                return (createElement("tr", { key: destIdx },
+                                    createElement("td", null,
+                                        createElement("b", null, dest.mediaPackageChannelId)),
+                                    createElement("td", null, "\u00A0"),
+                                    createElement("td", null, "\u00A0"),
+                                    createElement("td", null, "\u00A0"),
+                                    createElement("td", null, epb)));
                             });
-                            return (createElement("tr", null,
-                                createElement("td", null,
-                                    createElement("b", null, dest.mediaPackageChannelId)),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, "\u00A0"),
-                                createElement("td", null, epb)));
-                        });
-                        var channelPreviewButton = createElement("table", null, d);
-                        // @ts-ignore
-                        return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
-                            createElement(TableCell, { align: "left" },
-                                createElement("b", null, channel.name)),
-                            createElement(TableCell, { align: "right" }, channel.id),
-                            createElement(TableCell, { align: "right" }, channel.state),
-                            createElement(TableCell, { align: "right" },
-                                createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn, channel.id); }, control: createElement(IOSSwitch, null), label: "" })),
-                            createElement(TableCell, { align: "right" }, channelPreviewButton)));
-                    })))))));
+                            var channelPreviewButton = createElement("table", null, d);
+                            // @ts-ignore
+                            return (createElement(TableRow, { key: channel.id, sx: { '&:last-child td, &:last-child th': { border: 0 } } },
+                                createElement(TableCell, { align: "left" },
+                                    createElement("b", null, channel.name)),
+                                createElement(TableCell, { align: "right" }, channel.id),
+                                createElement(TableCell, { align: "right" }, channel.state),
+                                createElement(TableCell, { align: "right" },
+                                    createElement(FormControlLabel, { checked: channelSwitchOn, onChange: function () { return handleToggleChannel(channelSwitchOn, channel.id); }, control: createElement(IOSSwitch, null), label: "" })),
+                                createElement(TableCell, { align: "right" }, channelPreviewButton)));
+                        })))))));
 };
 
 var plugin /*: PluginDescriptor */ = {

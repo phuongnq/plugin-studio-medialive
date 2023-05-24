@@ -49,7 +49,7 @@ public class MediaLiveConsole {
      */
     def createMediaLiveClient(siteId) {
 
-        if(this.mediaLiveClient == null) {
+        if (this.mediaLiveClient == null) {
             def creds = this.lookupAwsMediaCredentials()
             AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
             this.mediaLiveClient = AWSMediaLiveClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
@@ -63,7 +63,7 @@ public class MediaLiveConsole {
      * @param siteId
      */
     def createMediaPackageClient(siteId) {
-        if(this.mediaPackageClient == null) {
+        if (this.mediaPackageClient == null) {
             def creds = this.lookupAwsMediaCredentials()
             AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
             this.mediaPackageClient = AWSMediaPackageClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
@@ -94,7 +94,7 @@ public class MediaLiveConsole {
 
             mlChannel.destinations.each { mlDestination ->
                 def destinationResult = [:]
-                if(mlDestination.mediaPackageSettings) {
+                if (mlDestination.mediaPackageSettings) {
                     def destId = mlDestination.mediaPackageSettings[0].channelId
                     destinationResult.mediaPackageChannelId = destId
                     def channelEndpoints = mpClient.listOriginEndpoints(new ListOriginEndpointsRequest().withChannelId(destId)).originEndpoints
