@@ -186,9 +186,45 @@ const ReactComponent = () => {
     <React.Fragment>
       <div
         onClick={() => setOpen(true)}
-        className="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters mui-12fdbme"
+        className="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters"
+        style={{
+          WebkitTapHighlightColor: 'transparent',
+          backgroundColor: 'transparent',
+          outline: '0px',
+          border: '0px',
+          margin: '0px',
+          borderRadius: '0px',
+          cursor: 'pointer',
+          userSelect: 'none',
+          verticalAlign: 'middle',
+          appearance: 'none',
+          color: 'inherit',
+          display: 'flex',
+          WebkitBoxFlex: 1,
+          flexGrow: 1,
+          WebkitBoxPack: 'start',
+          justifyContent: 'flex-start',
+          WebkitBoxAlign: 'center',
+          alignItems: 'center',
+          position: 'relative',
+          textDecoration: 'none',
+          minWidth: '0px',
+          boxSizing: 'border-box',
+          textAlign: 'left',
+          padding: '8px 16px',
+          transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
+        }}
       >
-        <div className="MuiListItemIcon-root mui-k9sfc6">
+        <div
+          className="MuiListItemIcon-root"
+          style={{
+            color: 'rgb(255, 255, 255)',
+            flexShrink: 0,
+            display: 'inline-flex',
+            marginRight: '10px',
+            minWidth: 'auto'
+          }}
+        >
           <svg
             className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium mui-vubbuv"
             focusable="false"
