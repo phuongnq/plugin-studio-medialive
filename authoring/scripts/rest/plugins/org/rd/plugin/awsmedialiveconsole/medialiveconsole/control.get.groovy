@@ -9,11 +9,11 @@ result.action = action
 def mediaLiveConsoleServices = new MediaLiveConsole(pluginConfig)
 
 if ("start".equals(action)) {
-    def awsResult = mediaLiveConsoleServices.startChannel(channelId, siteId)
+    def awsResult = mediaLiveConsoleServices.startChannel(channelId)
     result.message = "complete"
     logger.info("Start $channelId " + awsResult)
 } else if ("stop".equals(action)) {
-    def awsResult = mediaLiveConsoleServices.stopChannel(channelId, siteId)
+    def awsResult = mediaLiveConsoleServices.stopChannel(channelId)
     result.message = "complete"
     logger.info("Stop $channelId " + awsResult)
 } else {

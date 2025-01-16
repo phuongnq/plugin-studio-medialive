@@ -1,24 +1,25 @@
 package plugins.org.rd.plugin.awsmedialiveconsole
 
-@Grab(group='com.amazonaws', module='aws-java-sdk-medialive', version='1.12.99', initClass=false)
-@Grab(group='com.amazonaws', module='aws-java-sdk-mediapackage', version='1.12.99', initClass=false)
+@Grab(group='software.amazon.awssdk', module='medialive', version='2.29.52', initClass=false)
+@Grab(group='software.amazon.awssdk', module='mediapackage', version='2.29.52', initClass=false)
+@Grab(group='software.amazon.awssdk', module='auth', version='2.29.52', initClass=false)
+@Grab(group='software.amazon.awssdk', module='regions', version='2.29.52', initClass=false)
 
-import com.amazonaws.auth.*
-import com.amazonaws.auth.AWSCredentialsProvider
-import com.amazonaws.services.medialive.AWSMediaLiveClientBuilder
-import com.amazonaws.services.medialive.model.StopChannelRequest
-import com.amazonaws.services.medialive.model.StartChannelRequest
-
-import com.amazonaws.services.mediapackage.AWSMediaPackageClientBuilder
-import com.amazonaws.services.mediapackage.model.ListOriginEndpointsRequest
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.services.medialive.MediaLiveClient
+import software.amazon.awssdk.services.medialive.model.*
+import software.amazon.awssdk.services.mediapackage.MediaPackageClient
+import software.amazon.awssdk.services.mediapackage.model.*
 
 /**
  * This class is a service class that maps console functionality to AWS MediaLive services
  */
 public class MediaLiveConsole {
 
-    def mediaLiveClient
-    def mediaPackageClient
+    MediaLiveClient mediaLiveClient
+    MediaPackageClient mediaPackageClient
     def pluginConfig
 
     /**
@@ -30,7 +31,6 @@ public class MediaLiveConsole {
 
     /**
      * Look up credentials for AWS from the site
-     * @param siteId
      * @return object containing credentials
      */
     def lookupAwsMediaCredentials() {
@@ -44,67 +44,81 @@ public class MediaLiveConsole {
     }
 
     /**
-     * return the media live client. If one does not exist for the instance, create it.
-     * @param siteId
+     * Return the MediaLive client. If one does not exist for the instance, create it.
      */
-    def createMediaLiveClient(siteId) {
-
+    def createMediaLiveClient() {
         if (this.mediaLiveClient == null) {
             def creds = this.lookupAwsMediaCredentials()
-            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
-            this.mediaLiveClient = AWSMediaLiveClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
+            def awsCredentials = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+            this.mediaLiveClient = MediaLiveClient.builder()
+                .region(Region.of(creds.region))
+                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .build()
         }
 
         return this.mediaLiveClient
     }
 
     /**
-     * return the media live client. If one does not exist for the instance, create it.
-     * @param siteId
+     * Return the MediaPackage client. If one does not exist for the instance, create it.
      */
-    def createMediaPackageClient(siteId) {
+    def createMediaPackageClient() {
         if (this.mediaPackageClient == null) {
             def creds = this.lookupAwsMediaCredentials()
-            AWSCredentialsProvider credProvider = (AWSCredentialsProvider) (new AWSStaticCredentialsProvider( new BasicAWSCredentials(creds.apiKey, creds.apiSecret)))
-            this.mediaPackageClient = AWSMediaPackageClientBuilder.standard().withRegion(creds.region).withCredentials(credProvider).build()
+            def awsCredentials = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+            this.mediaPackageClient = MediaPackageClient.builder()
+                .region(Region.of(creds.region))
+                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .build()
         }
 
         return this.mediaPackageClient
     }
 
     /**
-     * list the available AWS MediaLive channels
-     * @param siteId Id of the site
+     * List the available AWS MediaLive channels.
      */
-    def listChannels(siteId) {
+    def listChannels() {
         def channelResults = []
 
-        def mlClient = this.createMediaLiveClient(siteId)
-        def mpClient = this.createMediaPackageClient(siteId)
-        def mlChannels = mlClient.listChannels(new com.amazonaws.services.medialive.model.ListChannelsRequest())
+        def mlClient = this.createMediaLiveClient()
+        def mpClient = this.createMediaPackageClient()
 
-        mlChannels.channels.each { mlChannel ->
+        def listChannelsResponse = mlClient.listChannels(ListChannelsRequest.builder().build())
+
+        listChannelsResponse.channels().each { mlChannel ->
             def channelResult = [:]
-            channelResult.id = mlChannel.id
-            channelResult.name = mlChannel.name
-            channelResult.state = mlChannel.state
+            channelResult.id = mlChannel.id()
+            channelResult.name = mlChannel.name()
+            channelResult.state = mlChannel.state().toString()
             channelResult.destinations = []
-            channelResult.mlDestinations = mlChannel.destinations
+            channelResult.mlDestinations = mlChannel.destinations().collect { destination ->
+                [
+                    id: destination.id(),
+                    settings: destination.mediaPackageSettings().collect { setting ->
+                        [channelId: setting.channelId()]
+                    }
+                ]
+            }
+
             channelResult.previewURL = ""
 
-            mlChannel.destinations.each { mlDestination ->
+            mlChannel.destinations().each { mlDestination ->
                 def destinationResult = [:]
-                if (mlDestination.mediaPackageSettings) {
-                    def destId = mlDestination.mediaPackageSettings[0].channelId
+                if (mlDestination.mediaPackageSettings()) {
+                    def destId = mlDestination.mediaPackageSettings().get(0).channelId()
                     destinationResult.mediaPackageChannelId = destId
-                    def channelEndpoints = mpClient.listOriginEndpoints(new ListOriginEndpointsRequest().withChannelId(destId)).originEndpoints
+
+                    def listOriginEndpointsResponse = mpClient.listOriginEndpoints(
+                        ListOriginEndpointsRequest.builder().channelId(destId).build()
+                    )
 
                     destinationResult.endpoints = []
-                    channelEndpoints.each { mpEndpoint ->
+                    listOriginEndpointsResponse.originEndpoints().forEach { mpEndpoint ->
                         def endpoint = [:]
-                        endpoint.id = mpEndpoint.id
-                        endpoint.description = mpEndpoint.description
-                        endpoint.url = mpEndpoint.url
+                        endpoint.id = mpEndpoint.id()
+                        endpoint.description = mpEndpoint.description()
+                        endpoint.url = mpEndpoint.url()
 
                         destinationResult.endpoints.add(endpoint)
                     }
@@ -120,26 +134,28 @@ public class MediaLiveConsole {
     }
 
     /**
-     * Start a given channel
-     * @param channelId channel to start
-     * @param siteId Id of the site
+     * Start a given channel.
+     * @param channelId Channel to start
      */
-    def startChannel(channelId, siteId) {
-        def mlClient = this.createMediaLiveClient(siteId)
-        def result = mlClient.startChannel(new StartChannelRequest().withChannelId(channelId))
+    def startChannel(channelId) {
+        def mlClient = this.createMediaLiveClient()
+        def startChannelResponse = mlClient.startChannel(
+            StartChannelRequest.builder().channelId(channelId).build()
+        )
 
-        return result
+        return startChannelResponse
     }
 
     /**
-     * Stop a given channel
-     * @param channelId channel to stop
-     * @param siteId Id of the site
+     * Stop a given channel.
+     * @param channelId Channel to stop
      */
-    def stopChannel(channelId, siteId) {
-        def mlClient = this.createMediaLiveClient(siteId)
-        def result = mlClient.stopChannel(new StopChannelRequest().withChannelId(channelId))
+    def stopChannel(channelId) {
+        def mlClient = this.createMediaLiveClient()
+        def stopChannelResponse = mlClient.stopChannel(
+            StopChannelRequest.builder().channelId(channelId).build()
+        )
 
-        return result
+        return stopChannelResponse
     }
 }
