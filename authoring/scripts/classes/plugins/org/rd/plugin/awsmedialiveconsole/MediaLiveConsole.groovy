@@ -5,8 +5,7 @@ package plugins.org.rd.plugin.awsmedialiveconsole
 @Grab(group='software.amazon.awssdk', module='auth', version='2.29.52', initClass=false)
 @Grab(group='software.amazon.awssdk', module='regions', version='2.29.52', initClass=false)
 
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
+import software.amazon.awssdk.auth.credentials.*
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.medialive.MediaLiveClient
 import software.amazon.awssdk.services.medialive.model.*
@@ -49,10 +48,18 @@ public class MediaLiveConsole {
     def createMediaLiveClient() {
         if (this.mediaLiveClient == null) {
             def creds = this.lookupAwsMediaCredentials()
-            def awsCredentials = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+            AwsCredentialsProvider credProvider
+
+            if (creds.apiKey && creds.apiSecret) {
+                AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+                credProvider = StaticCredentialsProvider.create(awsCreds)
+            } else {
+                credProvider = ProfileCredentialsProvider.create()
+            }
+
             this.mediaLiveClient = MediaLiveClient.builder()
                 .region(Region.of(creds.region))
-                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .credentialsProvider(credProvider)
                 .build()
         }
 
@@ -65,10 +72,18 @@ public class MediaLiveConsole {
     def createMediaPackageClient() {
         if (this.mediaPackageClient == null) {
             def creds = this.lookupAwsMediaCredentials()
-            def awsCredentials = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+            AwsCredentialsProvider credProvider
+
+            if (creds.apiKey && creds.apiSecret) {
+                AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
+                credProvider = StaticCredentialsProvider.create(awsCreds)
+            } else {
+                credProvider = ProfileCredentialsProvider.create()
+            }
+
             this.mediaPackageClient = MediaPackageClient.builder()
                 .region(Region.of(creds.region))
-                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .credentialsProvider(credProvider)
                 .build()
         }
 

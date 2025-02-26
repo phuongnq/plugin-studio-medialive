@@ -16,7 +16,7 @@ plugin:
   version:
     major: 1
     minor: 0
-    patch: 8
+    patch: 9
   description: A plugin to provide a console to Studio users that supports starting, stoping and previewing AWS MediaLive channels
   documentation: "https://raw.githubusercontent.com/russdanner/plugin-studio-medialive/master/README.md"
   website:
@@ -40,18 +40,13 @@ plugin:
     url: https://opensource.org/licenses/MIT
   crafterCmsVersions:
     - major: 4
-      minor: 0
-      patch: 0
+      minor: 2
+    - major: 4
+      minor: 3
   crafterCmsEditions:
     - community
     - enterprise
   parameters:
-    - label: AWS API Key
-      name: awsApiKey
-      description: The AWS Api Key for your MediaLive and Media Package infrastructure.
-    - label: AWS API Secret
-      name: awsApiSecret
-      description: The AWS API Secret for your MediaLive and Media Package infrastructure.
     - label: AWS Region
       name: awsRegion
       description: The AWS Region Secret for your MediaLive and Media Package infrastructure.
