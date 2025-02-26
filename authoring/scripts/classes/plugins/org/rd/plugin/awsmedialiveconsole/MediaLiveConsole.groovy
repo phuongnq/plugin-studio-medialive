@@ -54,7 +54,7 @@ public class MediaLiveConsole {
                 AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
                 credProvider = StaticCredentialsProvider.create(awsCreds)
             } else {
-                credProvider = ProfileCredentialsProvider.create()
+                credProvider = DefaultCredentialsProvider.create()
             }
 
             this.mediaLiveClient = MediaLiveClient.builder()
@@ -78,7 +78,7 @@ public class MediaLiveConsole {
                 AwsBasicCredentials awsCreds = AwsBasicCredentials.create(creds.apiKey, creds.apiSecret)
                 credProvider = StaticCredentialsProvider.create(awsCreds)
             } else {
-                credProvider = ProfileCredentialsProvider.create()
+                credProvider = DefaultCredentialsProvider.create()
             }
 
             this.mediaPackageClient = MediaPackageClient.builder()
